@@ -15,11 +15,18 @@ int main(int argc, char* argv[]) {
     }
 
     cpu_usage usage;
-    cpu_usage::cpu_usage_map_t cpu_usage = usage.get_cpu_usage();
+    cpu_usage::cpu_info_map_t cpu_usage = usage.get_cpu_usage();
 
     std::cout << "average CPU usage since start:" << std::endl;
     for (auto const& kv : cpu_usage) {
-        std::cout << kv.first << " " << kv.second << "%" << std::endl;
+        std::cout << kv.first << " "
+                  << kv.second.usage_ << "% usage "
+                  << kv.second.user_ << "% user "
+                  << kv.second.system_ << "% system "
+                  << kv.second.iowait_ << "% iowait "
+                  << kv.second.irq_ << "% irq "
+                  << kv.second.softirq_ << "% softirq"
+                  << std::endl;
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(sleep_ms));
@@ -28,7 +35,14 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl
               << "current CPU usage:" << std::endl;
     for (auto const& kv : cpu_usage) {
-        std::cout << kv.first << " " << kv.second << "%" << std::endl;
+        std::cout << kv.first << " "
+                  << kv.second.usage_ << "% usage "
+                  << kv.second.user_ << "% user "
+                  << kv.second.system_ << "% system "
+                  << kv.second.iowait_ << "% iowait "
+                  << kv.second.irq_ << "% irq "
+                  << kv.second.softirq_ << "% softirq"
+                  << std::endl;
     }
 
     return 0;
