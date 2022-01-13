@@ -20,7 +20,7 @@ public:
     using cpu_info_map_t = std::map<std::string, cpu_info>;
 
     /// updates CPU statistics and returns average CPU usage since last call,
-    /// will return an empty map during the first call
+    /// will return average since startup on the first call
     cpu_info_map_t get_cpu_usage();
 
 private:
