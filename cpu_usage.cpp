@@ -61,9 +61,7 @@ cpu_usage::cpu_info_map_t cpu_usage::get_cpu_usage() {
         }
 
         cpu_info info;
-        if (sum_diff <= 0) {
-            info.usage_ = info.user_ = info.system_ = 0.0;
-        } else {
+        if (sum_diff > 0) {
             info.usage_ = 100.0 - (idle_diff / (double)sum_diff) * 100.0;
             info.user_ = (user_diff / (double)sum_diff) * 100.0;
             info.system_ = (system_diff / (double)sum_diff) * 100.0;
