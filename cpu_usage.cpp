@@ -38,7 +38,9 @@ cpu_usage::cpu_info_map_t cpu_usage::get_cpu_usage() {
         uint64_t iowait_diff;
         uint64_t irq_diff;
         uint64_t softirq_diff;
-        if (0 == old_stats.count(kv.first)) {
+
+        cpu_stats_map_t::iterator it = old_stats.find(kv.first);
+        if (it == old_stats.end()) {
             // first run or CPU newly appeared,
             // calculate CPU usage since start
             sum_diff = kv.second.sum();
@@ -51,13 +53,13 @@ cpu_usage::cpu_info_map_t cpu_usage::get_cpu_usage() {
         } else {
             // previous run present,
             // calculate CPU usage since previous run
-            sum_diff  = kv.second.sum() - old_stats[kv.first].sum();
-            idle_diff = kv.second.idle_ - old_stats[kv.first].idle_;
-            user_diff = kv.second.user_ + kv.second.nice_ - old_stats[kv.first].user_ - old_stats[kv.first].nice_;
-            system_diff = kv.second.system_ - old_stats[kv.first].system_;
-            iowait_diff = kv.second.iowait_ - old_stats[kv.first].iowait_;
-            irq_diff = kv.second.irq_ - old_stats[kv.first].irq_;
-            softirq_diff = kv.second.softirq_ - old_stats[kv.first].softirq_;
+            sum_diff  = kv.second.sum() - it->second.sum();
+            idle_diff = kv.second.idle_ - it->second.idle_;
+            user_diff = kv.second.user_ + kv.second.nice_ - it->second.user_ - it->second.nice_;
+            system_diff = kv.second.system_ - it->second.system_;
+            iowait_diff = kv.second.iowait_ - it->second.iowait_;
+            irq_diff = kv.second.irq_ - it->second.irq_;
+            softirq_diff = kv.second.softirq_ - it->second.softirq_;
         }
 
         cpu_info info;
